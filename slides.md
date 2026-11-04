@@ -24,9 +24,29 @@ section strong {
   color: var(--nc-mint);
   font-weight: 400;
 }
+/* Same size as body text: brand guideline allows max. 2 text sizes per slide */
 section pre {
   margin-top: 0.8em;
-  font-size: 0.85em;
+  font-size: 1em;
+}
+/* Title and closing slides: the logo sits in the layout flow (not
+   absolutely over it), with clear space below it of more than the height
+   of its "N" (~48px at this size) – brand guideline safe area. */
+section.lead::before,
+section.closing::before {
+  position: static;
+  transform: none;
+  flex: none;
+  width: 400px;
+  height: 107px; /* the SVG's 866.67 × 231.08 at 400px wide */
+  margin-bottom: 64px;
+}
+section.lead h1,
+section.closing h1 {
+  margin-top: 0;
+}
+section :not(pre) > code {
+  font-size: 1em;
 }
 /* Readable highlighting on the dark background */
 section pre code [class^="hljs-"] {
