@@ -49,6 +49,21 @@ section code,
 section pre code {
   font-size: 1em;
 }
+/* Text left, diagram right */
+section .split {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 48px;
+  align-items: center;
+}
+section .split.wide {
+  grid-template-columns: 1fr 1.7fr;
+  gap: 40px;
+}
+section .diagram {
+  width: 100%;
+  height: auto;
+}
 /* Readable highlighting on the dark background */
 section pre code [class^="hljs-"] {
   color: var(--nc-mint);
@@ -85,16 +100,35 @@ ls                 # list what is in it
 
 ## Git
 
-**What:** a version history for a folder of code. Every saved step is a *commit* with a message saying why.
+<div class="split">
+<div>
 
-**Why it matters:** you can see who changed what and when, try things safely, and go back if something breaks. A *branch* is a separate line of work.
+**What:** a version history for your code. Each saved step is a *commit*.
 
-**In the training:** your coding agent commits its work; you read the history.
+**Why it matters:** you see who changed what and why, can try an idea on a *branch*, and can go back if something breaks.
 
-```bash
-git status                      # what has changed
-git commit -m "Add login page"  # save a step
-```
+**In the training:** your coding agent commits; you read the history.
+
+</div>
+<svg class="diagram" viewBox="0 0 560 320" role="img" aria-label="Git: commits in a row form the history; a branch splits off to try an idea">
+  <path d="M210 230 C 250 230, 250 120, 290 120 L 360 120" fill="none" stroke="#a9f5e4" stroke-width="3"/>
+  <line x1="20" y1="230" x2="540" y2="230" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="70" cy="230" r="8" fill="#1c1c1c" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="210" cy="230" r="8" fill="#1c1c1c" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="350" cy="230" r="8" fill="#1c1c1c" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="490" cy="230" r="8" fill="#1c1c1c" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="360" cy="120" r="8" fill="#a9f5e4"/>
+  <g font-family="'IBM Plex Mono', monospace" font-size="22">
+    <text x="20" y="44" fill="#f5f5f5">each dot = a commit</text>
+    <text x="380" y="127" fill="#a9f5e4">branch</text>
+    <text x="70" y="274" fill="#f5f5f5" text-anchor="middle">add</text>
+    <text x="210" y="274" fill="#f5f5f5" text-anchor="middle">fix</text>
+    <text x="350" y="274" fill="#f5f5f5" text-anchor="middle">test</text>
+    <text x="490" y="274" fill="#f5f5f5" text-anchor="middle">style</text>
+    <text x="540" y="312" fill="#f5f5f5" text-anchor="end" opacity="0.4">time →</text>
+  </g>
+</svg>
+</div>
 
 ---
 
@@ -115,11 +149,37 @@ gh repo clone <your-repository-url>
 
 ## GitHub flow
 
-**What:** the simple way of working with GitHub: `main` is always working, and every change goes through its own branch and pull request.
+<div class="split">
+<div>
 
-**Why it matters:** each change is small, tested and reviewed before it reaches `main` – by a person, even when an AI wrote it.
+**What:** `main` always works. Every change gets its own branch and pull request.
 
-**In the training:** branch → commits → pull request → checks pass → review → merge. You decide what gets merged.
+**Why it matters:** each change is small, tested and reviewed before it reaches `main` – even when an AI wrote it.
+
+**In the training:** you decide what gets merged.
+
+</div>
+<svg class="diagram" viewBox="0 0 560 320" role="img" aria-label="GitHub flow: a branch leaves main and gets commits; a pull request wraps those commits for checks and review; then it is merged back into main">
+  <rect x="198" y="108" width="244" height="64" rx="10" fill="none" stroke="#a9f5e4" stroke-width="2" stroke-dasharray="6 5"/>
+  <path d="M130 250 C 170 250, 170 140, 210 140 L 390 140 C 430 140, 430 250, 470 250" fill="none" stroke="#a9f5e4" stroke-width="3"/>
+  <line x1="10" y1="250" x2="550" y2="250" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="50" cy="250" r="8" fill="#1c1c1c" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="130" cy="250" r="8" fill="#1c1c1c" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="530" cy="250" r="8" fill="#1c1c1c" stroke="#f5f5f5" stroke-width="3"/>
+  <circle cx="250" cy="140" r="8" fill="#a9f5e4"/>
+  <circle cx="320" cy="140" r="8" fill="#a9f5e4"/>
+  <circle cx="390" cy="140" r="8" fill="#a9f5e4"/>
+  <circle cx="470" cy="250" r="9" fill="#a9f5e4" stroke="#f5f5f5" stroke-width="3"/>
+  <g font-family="'IBM Plex Mono', monospace" font-size="22">
+    <text x="320" y="56" fill="#a9f5e4" text-anchor="middle">3 pull request</text>
+    <text x="320" y="88" fill="#f5f5f5" text-anchor="middle">checks + review</text>
+    <text x="320" y="210" fill="#a9f5e4" text-anchor="middle">2 commits</text>
+    <text x="140" y="200" fill="#a9f5e4" text-anchor="end">1 branch</text>
+    <text x="458" y="200" fill="#a9f5e4">4 merge</text>
+    <text x="10" y="292" fill="#f5f5f5">main</text>
+  </g>
+</svg>
+</div>
 
 ---
 
@@ -140,59 +200,169 @@ npm test        # run its tests
 
 ## Testing levels
 
-**What:** code that checks other code works.
-- **Unit tests** – one small piece on its own, fast
-- **Integration tests** – pieces working together, e.g. with a database
-- **Acceptance tests** – the whole app, the way a user uses it
+<div class="split">
+<div>
 
-**Why it matters:** tests let you – and your agent – change code with confidence: if they pass, nothing broke.
+**What:** code that checks other code works – at three levels.
+
+**Why it matters:** when the tests pass, nothing broke – for you and for your agent.
 
 **In the training:** tests come first, and the agent runs them after every change.
+
+</div>
+<svg class="diagram" viewBox="0 0 560 320" role="img" aria-label="Testing pyramid: few slow acceptance tests at the top, integration tests in the middle, many fast unit tests at the bottom">
+  <polygon points="180,20 180,20 231.42857142857144,110 128.57142857142856,110" fill="#a9f5e4"/>
+  <polygon points="125.14285714285714,116 234.85714285714286,116 285.1428571428571,204 74.85714285714286,204" fill="#a9f5e4"/>
+  <polygon points="71.42857142857142,210 288.57142857142856,210 340,300 20,300" fill="#a9f5e4"/>
+  <g font-family="'IBM Plex Mono', monospace" font-size="22">
+    <text x="370" y="76" fill="#a9f5e4">acceptance</text>
+    <text x="370" y="104" fill="#f5f5f5">few · slow</text>
+    <text x="370" y="170" fill="#a9f5e4">integration</text>
+    <text x="370" y="262" fill="#a9f5e4">unit</text>
+    <text x="370" y="290" fill="#f5f5f5">many · fast</text>
+  </g>
+</svg>
+</div>
 
 ---
 
 ## CI/CD with GitHub Actions
 
-**What:** **CI** (continuous integration) builds and tests every change automatically. **CD** (continuous delivery/deployment) ships the tested change to where users can use it.
+<div class="split">
+<div>
 
-**Why it matters:** problems show up minutes after a change, not weeks – and releasing becomes routine instead of risky.
+**What:** *CI* builds and tests every change automatically. *CD* ships the tested change to users.
 
-**In the training:** GitHub Actions runs a *workflow* (a YAML file in `.github/workflows/`) on every push and pull request, and deploys to Azure.
+**Why it matters:** problems show up in minutes, not weeks, and releasing becomes routine.
+
+**In the training:** a GitHub Actions workflow runs on every push and deploys to Azure.
+
+</div>
+<svg class="diagram" viewBox="0 0 600 320" role="img" aria-label="CI/CD: you push; CI builds and tests the change; CD deploys it. A failing test stops the line.">
+  <rect x="4" y="110" width="118" height="64" rx="8" fill="none" stroke="#f5f5f5" stroke-width="2"/>
+  <rect x="152" y="110" width="118" height="64" rx="8" fill="none" stroke="#a9f5e4" stroke-width="2"/>
+  <rect x="300" y="110" width="118" height="64" rx="8" fill="none" stroke="#a9f5e4" stroke-width="2"/>
+  <rect x="448" y="110" width="118" height="64" rx="8" fill="none" stroke="#a9f5e4" stroke-width="2"/>
+  <line x1="126" y1="142" x2="140" y2="142" stroke="#f5f5f5" stroke-width="2"/><polygon points="148,142 138,136 138,148" fill="#f5f5f5"/>
+  <line x1="274" y1="142" x2="288" y2="142" stroke="#f5f5f5" stroke-width="2"/><polygon points="296,142 286,136 286,148" fill="#f5f5f5"/>
+  <line x1="422" y1="142" x2="436" y2="142" stroke="#f5f5f5" stroke-width="2"/><polygon points="444,142 434,136 434,148" fill="#f5f5f5"/>
+  <g font-family="'IBM Plex Mono', monospace" font-size="24">
+    <text x="63" y="150" fill="#f5f5f5" text-anchor="middle">push</text>
+    <text x="211" y="150" fill="#a9f5e4" text-anchor="middle">build</text>
+    <text x="359" y="150" fill="#a9f5e4" text-anchor="middle">test</text>
+    <text x="507" y="150" fill="#a9f5e4" text-anchor="middle">deploy</text>
+    <text x="63" y="80" fill="#f5f5f5" text-anchor="middle">you</text>
+    <path d="M152 196 L152 206 L418 206 L418 196" fill="none" stroke="#a9f5e4" stroke-width="2"/><text x="285" y="238" fill="#a9f5e4" text-anchor="middle">CI</text>
+    <path d="M448 196 L448 206 L566 206 L566 196" fill="none" stroke="#a9f5e4" stroke-width="2"/><text x="507" y="238" fill="#a9f5e4" text-anchor="middle">CD</text>
+    <text x="300" y="306" fill="#f5f5f5" text-anchor="middle">a failing test stops the line</text>
+  </g>
+</svg>
+</div>
 
 ---
 
 ## Docker
 
-**What:** packs an app and everything it needs into an *image*. A running image is a *container*. A `Dockerfile` is the recipe.
+<div class="split wide">
+<div>
 
-**Why it matters:** "works on my machine" becomes "works everywhere" – the same image runs on your laptop, in CI and in the cloud.
+**What:** packs an app and all it needs into an *image*, built from a `Dockerfile`.
 
-**In the training:** your app is built into an image for deployment.
+**Why it matters:** the same image runs on your laptop, in CI and in the cloud.
 
-```bash
-docker build -t yapster .      # build an image
-docker run -p 3000:3000 yapster
-```
+**In the training:** your app is built into an image.
+
+</div>
+<svg class="diagram" viewBox="0 0 700 300" role="img" aria-label="From Dockerfile to a live app: build an image, push it to Azure Container Registry, run it on Azure Container Apps">
+  <g ><path d="M42 114 h40 l16 16 v56 h-56 z" fill="none" stroke="#a9f5e4" stroke-width="3"/><line x1="52" y1="140" x2="88" y2="140" stroke="#a9f5e4" stroke-width="2"/><line x1="52" y1="152" x2="88" y2="152" stroke="#a9f5e4" stroke-width="2"/><line x1="52" y1="164" x2="88" y2="164" stroke="#a9f5e4" stroke-width="2"/></g>
+  <g ><rect x="223" y="126" width="64" height="16" rx="3" fill="#a9f5e4"/><rect x="223" y="146" width="64" height="16" rx="3" fill="#a9f5e4"/><rect x="223" y="166" width="64" height="16" rx="3" fill="#a9f5e4"/></g>
+  <g opacity="0.4"><rect x="400" y="114" width="80" height="72" rx="6" fill="none" stroke="#f5f5f5" stroke-width="3"/><rect x="412" y="126" width="26" height="18" rx="2" fill="#f5f5f5"/><rect x="442" y="126" width="26" height="18" rx="2" fill="#f5f5f5"/><rect x="412" y="156" width="26" height="18" rx="2" fill="#f5f5f5"/><rect x="442" y="156" width="26" height="18" rx="2" fill="#f5f5f5"/></g>
+  <g opacity="0.4"><rect x="585" y="116" width="80" height="68" rx="8" fill="none" stroke="#f5f5f5" stroke-width="3"/><polygon points="615,134 641,150 615,166" fill="#f5f5f5"/></g>
+  <g font-family="'IBM Plex Mono', monospace" font-size="24">
+    <g ><line x1="120" y1="150" x2="195" y2="150" stroke="#a9f5e4" stroke-width="3"/><polygon points="205,150 193,143 193,157" fill="#a9f5e4"/><text x="162.5" y="128" fill="#a9f5e4" text-anchor="middle">build</text></g>
+    <g opacity="0.4"><line x1="305" y1="150" x2="380" y2="150" stroke="#f5f5f5" stroke-width="3"/><polygon points="390,150 378,143 378,157" fill="#f5f5f5"/><text x="347.5" y="128" fill="#f5f5f5" text-anchor="middle">push</text></g>
+    <g opacity="0.4"><line x1="490" y1="150" x2="565" y2="150" stroke="#f5f5f5" stroke-width="3"/><polygon points="575,150 563,143 563,157" fill="#f5f5f5"/><text x="532.5" y="128" fill="#f5f5f5" text-anchor="middle">run</text></g>
+    <text x="70" y="230" fill="#a9f5e4" text-anchor="middle" >Dockerfile</text>
+    <text x="255" y="230" fill="#a9f5e4" text-anchor="middle" >image</text>
+    <text x="440" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">ACR</text>
+    <text x="625" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">ACA</text>
+    <text x="70" y="260" fill="#f5f5f5" text-anchor="middle" >recipe</text>
+    <text x="255" y="260" fill="#f5f5f5" text-anchor="middle" >package</text>
+    <text x="440" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">storage</text>
+    <text x="625" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">live app</text>
+  </g>
+</svg>
+</div>
 
 ---
 
 ## Azure Container Registry (ACR)
 
-**What:** a private storage place for Docker images in Azure – like GitHub, but for images instead of code.
+<div class="split wide">
+<div>
 
-**Why it matters:** CI builds an image once and *pushes* it to the registry; the cloud then *pulls* that exact image to run it.
+**What:** Azure's private storage for images – like GitHub, but for images.
 
-**In the training:** your pipeline pushes your app's image to an ACR prepared for you.
+**Why it matters:** CI *pushes* an image once; the cloud *pulls* that exact image.
+
+**In the training:** your pipeline pushes to an ACR prepared for you.
+
+</div>
+<svg class="diagram" viewBox="0 0 700 300" role="img" aria-label="From Dockerfile to a live app: build an image, push it to Azure Container Registry, run it on Azure Container Apps">
+  <g opacity="0.4"><path d="M42 114 h40 l16 16 v56 h-56 z" fill="none" stroke="#f5f5f5" stroke-width="3"/><line x1="52" y1="140" x2="88" y2="140" stroke="#f5f5f5" stroke-width="2"/><line x1="52" y1="152" x2="88" y2="152" stroke="#f5f5f5" stroke-width="2"/><line x1="52" y1="164" x2="88" y2="164" stroke="#f5f5f5" stroke-width="2"/></g>
+  <g opacity="0.4"><rect x="223" y="126" width="64" height="16" rx="3" fill="#f5f5f5"/><rect x="223" y="146" width="64" height="16" rx="3" fill="#f5f5f5"/><rect x="223" y="166" width="64" height="16" rx="3" fill="#f5f5f5"/></g>
+  <g ><rect x="400" y="114" width="80" height="72" rx="6" fill="none" stroke="#a9f5e4" stroke-width="3"/><rect x="412" y="126" width="26" height="18" rx="2" fill="#a9f5e4"/><rect x="442" y="126" width="26" height="18" rx="2" fill="#a9f5e4"/><rect x="412" y="156" width="26" height="18" rx="2" fill="#a9f5e4"/><rect x="442" y="156" width="26" height="18" rx="2" fill="#a9f5e4"/></g>
+  <g opacity="0.4"><rect x="585" y="116" width="80" height="68" rx="8" fill="none" stroke="#f5f5f5" stroke-width="3"/><polygon points="615,134 641,150 615,166" fill="#f5f5f5"/></g>
+  <g font-family="'IBM Plex Mono', monospace" font-size="24">
+    <g opacity="0.4"><line x1="120" y1="150" x2="195" y2="150" stroke="#f5f5f5" stroke-width="3"/><polygon points="205,150 193,143 193,157" fill="#f5f5f5"/><text x="162.5" y="128" fill="#f5f5f5" text-anchor="middle">build</text></g>
+    <g ><line x1="305" y1="150" x2="380" y2="150" stroke="#a9f5e4" stroke-width="3"/><polygon points="390,150 378,143 378,157" fill="#a9f5e4"/><text x="347.5" y="128" fill="#a9f5e4" text-anchor="middle">push</text></g>
+    <g opacity="0.4"><line x1="490" y1="150" x2="565" y2="150" stroke="#f5f5f5" stroke-width="3"/><polygon points="575,150 563,143 563,157" fill="#f5f5f5"/><text x="532.5" y="128" fill="#f5f5f5" text-anchor="middle">run</text></g>
+    <text x="70" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">Dockerfile</text>
+    <text x="255" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">image</text>
+    <text x="440" y="230" fill="#a9f5e4" text-anchor="middle" >ACR</text>
+    <text x="625" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">ACA</text>
+    <text x="70" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">recipe</text>
+    <text x="255" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">package</text>
+    <text x="440" y="260" fill="#f5f5f5" text-anchor="middle" >storage</text>
+    <text x="625" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">live app</text>
+  </g>
+</svg>
+</div>
 
 ---
 
 ## Azure Container Apps (ACA)
 
-**What:** an Azure service that runs your containers on the internet without you managing servers.
+<div class="split wide">
+<div>
 
-**Why it matters:** you give it an image from ACR; it starts containers, gives the app a web address, and scales it up and down with traffic.
+**What:** runs your containers on the internet – no servers to manage.
+
+**Why it matters:** it gives the app a web address and scales it with traffic.
 
 **In the training:** this is where your app goes live.
+
+</div>
+<svg class="diagram" viewBox="0 0 700 300" role="img" aria-label="From Dockerfile to a live app: build an image, push it to Azure Container Registry, run it on Azure Container Apps">
+  <g opacity="0.4"><path d="M42 114 h40 l16 16 v56 h-56 z" fill="none" stroke="#f5f5f5" stroke-width="3"/><line x1="52" y1="140" x2="88" y2="140" stroke="#f5f5f5" stroke-width="2"/><line x1="52" y1="152" x2="88" y2="152" stroke="#f5f5f5" stroke-width="2"/><line x1="52" y1="164" x2="88" y2="164" stroke="#f5f5f5" stroke-width="2"/></g>
+  <g opacity="0.4"><rect x="223" y="126" width="64" height="16" rx="3" fill="#f5f5f5"/><rect x="223" y="146" width="64" height="16" rx="3" fill="#f5f5f5"/><rect x="223" y="166" width="64" height="16" rx="3" fill="#f5f5f5"/></g>
+  <g opacity="0.4"><rect x="400" y="114" width="80" height="72" rx="6" fill="none" stroke="#f5f5f5" stroke-width="3"/><rect x="412" y="126" width="26" height="18" rx="2" fill="#f5f5f5"/><rect x="442" y="126" width="26" height="18" rx="2" fill="#f5f5f5"/><rect x="412" y="156" width="26" height="18" rx="2" fill="#f5f5f5"/><rect x="442" y="156" width="26" height="18" rx="2" fill="#f5f5f5"/></g>
+  <g ><rect x="585" y="116" width="80" height="68" rx="8" fill="none" stroke="#a9f5e4" stroke-width="3"/><polygon points="615,134 641,150 615,166" fill="#a9f5e4"/></g>
+  <g font-family="'IBM Plex Mono', monospace" font-size="24">
+    <g opacity="0.4"><line x1="120" y1="150" x2="195" y2="150" stroke="#f5f5f5" stroke-width="3"/><polygon points="205,150 193,143 193,157" fill="#f5f5f5"/><text x="162.5" y="128" fill="#f5f5f5" text-anchor="middle">build</text></g>
+    <g opacity="0.4"><line x1="305" y1="150" x2="380" y2="150" stroke="#f5f5f5" stroke-width="3"/><polygon points="390,150 378,143 378,157" fill="#f5f5f5"/><text x="347.5" y="128" fill="#f5f5f5" text-anchor="middle">push</text></g>
+    <g ><line x1="490" y1="150" x2="565" y2="150" stroke="#a9f5e4" stroke-width="3"/><polygon points="575,150 563,143 563,157" fill="#a9f5e4"/><text x="532.5" y="128" fill="#a9f5e4" text-anchor="middle">run</text></g>
+    <text x="70" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">Dockerfile</text>
+    <text x="255" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">image</text>
+    <text x="440" y="230" fill="#f5f5f5" text-anchor="middle" opacity="0.4">ACR</text>
+    <text x="625" y="230" fill="#a9f5e4" text-anchor="middle" >ACA</text>
+    <text x="70" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">recipe</text>
+    <text x="255" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">package</text>
+    <text x="440" y="260" fill="#f5f5f5" text-anchor="middle" opacity="0.4">storage</text>
+    <text x="625" y="260" fill="#f5f5f5" text-anchor="middle" >live app</text>
+  </g>
+</svg>
+</div>
 
 ---
 
@@ -208,11 +378,39 @@ docker run -p 3000:3000 yapster
 
 ## Secrets & environments
 
-**What:** *secrets* are passwords, tokens and keys. *Environments* are the separate places an app runs – e.g. development, test, production.
+<div class="split">
+<div>
 
-**Why it matters:** a secret in Git is a leaked secret. Each environment gets its own settings, kept outside the code: in GitHub Actions secrets or Azure, and locally in a git-ignored `.env` file.
+**What:** *secrets* are passwords, tokens and keys. *Environments* are where the app runs.
 
-**In the training:** your credentials are given to you – keep them out of files, commits and prompts.
+**Why it matters:** each environment has its own secrets, kept outside the code – a secret in Git is a leaked secret.
+
+**In the training:** keep your credentials out of files, commits and prompts.
+
+</div>
+<svg class="diagram" viewBox="0 0 560 320" role="img" aria-label="The same code runs in dev, test and production; each environment has its own secrets, never stored in Git">
+  <rect x="200" y="12" width="160" height="52" rx="8" fill="none" stroke="#f5f5f5" stroke-width="2"/>
+  <line x1="280" y1="64" x2="90" y2="120" stroke="#f5f5f5" stroke-width="2"/><polygon points="90,128 84,117 96,117" fill="#f5f5f5"/>
+  <line x1="280" y1="64" x2="280" y2="120" stroke="#f5f5f5" stroke-width="2"/><polygon points="280,128 274,117 286,117" fill="#f5f5f5"/>
+  <line x1="280" y1="64" x2="470" y2="120" stroke="#f5f5f5" stroke-width="2"/><polygon points="470,128 464,117 476,117" fill="#f5f5f5"/>
+  <rect x="10" y="130" width="160" height="54" rx="8" fill="none" stroke="#a9f5e4" stroke-width="2"/>
+  <rect x="200" y="130" width="160" height="54" rx="8" fill="none" stroke="#a9f5e4" stroke-width="2"/>
+  <rect x="390" y="130" width="160" height="54" rx="8" fill="none" stroke="#a9f5e4" stroke-width="2"/>
+  <circle cx="68" cy="232" r="11" fill="none" stroke="#a9f5e4" stroke-width="3"/><path d="M79 232 h36 m-10 0 v10 m-10 -10 v8" fill="none" stroke="#a9f5e4" stroke-width="3"/>
+  <circle cx="258" cy="232" r="11" fill="none" stroke="#a9f5e4" stroke-width="3"/><path d="M269 232 h36 m-10 0 v10 m-10 -10 v8" fill="none" stroke="#a9f5e4" stroke-width="3"/>
+  <circle cx="448" cy="232" r="11" fill="none" stroke="#a9f5e4" stroke-width="3"/><path d="M459 232 h36 m-10 0 v10 m-10 -10 v8" fill="none" stroke="#a9f5e4" stroke-width="3"/>
+  <g font-family="'IBM Plex Mono', monospace" font-size="22">
+    <text x="280" y="46" fill="#f5f5f5" text-anchor="middle">same code</text>
+    <text x="90" y="165" fill="#a9f5e4" text-anchor="middle">dev</text>
+    <text x="280" y="165" fill="#a9f5e4" text-anchor="middle">test</text>
+    <text x="470" y="165" fill="#a9f5e4" text-anchor="middle">production</text>
+    <text x="90" y="276" fill="#f5f5f5" text-anchor="middle">own secrets</text>
+    <text x="280" y="276" fill="#f5f5f5" text-anchor="middle">own secrets</text>
+    <text x="470" y="276" fill="#f5f5f5" text-anchor="middle">own secrets</text>
+    <text x="280" y="314" fill="#f5f5f5" text-anchor="middle" opacity="0.4">never in Git</text>
+  </g>
+</svg>
+</div>
 
 ---
 
