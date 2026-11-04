@@ -45,7 +45,8 @@ section.lead h1,
 section.closing h1 {
   margin-top: 0;
 }
-section :not(pre) > code {
+section code,
+section pre code {
   font-size: 1em;
 }
 /* Readable highlighting on the dark background */
